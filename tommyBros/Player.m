@@ -29,7 +29,7 @@
     
     velX = 0.0f;
     velY = 0.0f;
-    maxVelY = -64.0f;
+    maxVelY = -62.0f;
     isJumping = NO;
     isGrounded = YES;
     

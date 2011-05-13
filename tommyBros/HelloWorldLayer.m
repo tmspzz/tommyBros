@@ -104,18 +104,22 @@
 	int steps = 1;
 	CGFloat dt = delta/(CGFloat)steps;
     
-    
-    [_player1 updateVelY];
-    
-    if(![self willPlayerCollideOnYWithWorld:_player1]){
-        
-        _player1.position = ccp(_player1.position.x, _player1.position.y + _player1.velY);
-    }
     if(![self willPlayerCollideOnXWithWorld:_player1]){
-    
-        _player1.position = ccp(_player1.position.x+_player1.velX, _player1.position.y);
-    
+        
+        if(![self willPlayerCollideOnYWithWorld:_player1]){
+            
+            _player1.isGrounded = NO;
+            _player1.position = ccp(_player1.position.x+_player1.velX, _player1.position.y + _player1.velY);
+            NSLog(@"Player y pos = %f", _player1.position.y);
+            [_player1 updateVelY];
+            
+        }
+
+        
     }
+    
+
+
     
     //_player1.position = ccp(_player1.position.x+_player1.velX, _player1.position.y);
 
@@ -125,46 +129,42 @@
 - (BOOL) willPlayerCollideOnYWithWorld:(Player *)player{
     
     BOOL collided = NO;
-    player.isGrounded = NO;
     
-    for (NSValue *value in player.cornerArray){
-        
-        CGPoint corner = [value CGPointValue];
-        
-        CGPoint tileCoord = [self tileCoordForPosition:corner];
-        int tileGid = [_metaLayer tileGIDAt:tileCoord];
-        if(tileGid){
-            NSDictionary *properties = [_map propertiesForGID:tileGid];
-            if (properties) {
+    CGPoint bottomCenter = ccp(player.position.x , player.position.y - player.contentSize.height/2 +1);
+    
+    CGPoint tileCoord = [self tileCoordForPosition:bottomCenter];
+    int tileGid = [_metaLayer tileGIDAt:tileCoord];
+    if(tileGid){
+        NSDictionary *properties = [_map propertiesForGID:tileGid];
+        if (properties) {
+            
+            NSString *collision = [properties valueForKey:@"Collidable"];
+            if([collision isEqualToString:@"True"]){
                 
-                NSString *collision = [properties valueForKey:@"Collidable"];
-                if([collision isEqualToString:@"True"]){
+                short int displacement = 0;
+                
+                float tileTop = (_map.mapSize.height - tileCoord.y) * _map.tileSize.height;
+                float tileBottom = tileTop - _map.tileSize.height;
+                
+                float playerTop = player.cornerUpperRight.y;
+                float playerBottom = player.cornerLowerRight.y;
+                
+                if(playerBottom + player.velY < tileTop && player.velY <= 0){
                     
-                    short int displacement = 0;
-                    
-                    float tileTop = (_map.mapSize.height - tileCoord.y) * _map.tileSize.height;
-                    float tileBottom = tileTop - _map.tileSize.height;
-                    
-                    float playerTop = player.cornerUpperRight.y;
-                    float playerBottom = player.cornerLowerRight.y;
-                    
-                    if(playerBottom + player.velY < tileTop && player.velY <= 0){
-                        
-                        displacement = tileTop - playerBottom;
-                        player.isGrounded = YES;
-                        player.isJumping = NO;
-                        player.velY = 0;
-                        player.position = ccp(player.position.x, player.position.y + displacement);
-                        return collided = YES;
-                    }
-                    if(playerTop + player.velY >= tileBottom && player.velY > 0 && playerTop < tileTop){
-                        
-                        displacement = (playerTop - tileBottom)*-1;
-                        player.velY = 0;
-                        player.position = ccp(player.position.x, player.position.y + displacement);
-                        return collided = YES;
-                    }  
+                    displacement = tileTop - playerBottom;
+                    player.isGrounded = YES;
+                    player.isJumping = NO;
+                    player.velY = 0;
+                    player.position = ccp(player.position.x, player.position.y + displacement);
+                    return collided = YES;
                 }
+                if(playerTop + player.velY >= tileBottom && player.velY >= 0 && playerTop){
+                    
+                    displacement = (playerTop - tileBottom)*-1;
+                    player.velY = 0;
+                    player.position = ccp(player.position.x, player.position.y + displacement);
+                    return collided = YES;
+                }  
             }
         }
     }
@@ -178,8 +178,8 @@
     //for (NSValue *value in player.cornerArray){
         
         //CGPoint corner = [value CGPointValue];
-        CGPoint corner = _player1.position;
-        CGPoint tileCoord = [self tileCoordForPosition:corner];
+    CGPoint rightCenter = ccp(player.cornerUpperRight.x -1, player.position.y);
+        CGPoint tileCoord = [self tileCoordForPosition:rightCenter];
         int tileGid = [_metaLayer tileGIDAt:tileCoord];
         if(tileGid){
             
@@ -232,7 +232,7 @@
     switch (padNumber) {
         case kPadP1:
             if(!_player1.isJumping){
-                _player1.velY = 52.0f;
+                _player1.velY = 64.0f;
                 _player1.isJumping = YES;
                 _player1.isGrounded = NO;
             }
