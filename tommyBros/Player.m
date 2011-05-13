@@ -1,0 +1,63 @@
+//
+//  Player.m
+//  tommyBros
+//
+//  Created by Tommaso Piazza on 5/12/11.
+//  Copyright 2011 ChalmersTH. All rights reserved.
+//
+
+#import "Player.h"
+
+
+@implementation Player
+@synthesize velX, velY, accX, accY, isJumping, cornerArray, cornerLowerLeft, cornerLowerRight, cornerUpperLeft, cornerUpperRight;
+
+
++ (Player *) playerWithFile: (NSString *) fileName tag:(const int)tag {
+    
+    return [[[self alloc] initWithFile:fileName tag:tag] autorelease];
+    
+}
+
+
+- (id)initWithFile:(NSString *)fileName tag:(const int)tag{
+    
+	self = [super initWithFile:fileName];
+    self.tag = tag;
+    
+    velX = 0.0f;
+    velY = 0.0f;
+    accX = 0.0f;
+    accY = 0.0f;
+    isJumping = NO;
+    
+    self.cornerArray = [NSMutableArray arrayWithCapacity:4];
+    
+	return self;
+}
+
+- (void) setPosition:(CGPoint)position {
+
+    [super setPosition:position];
+    
+    cornerUpperRight = CGPointMake(self.position.x + self.contentSize.width/2, self.position.y + self.contentSize.height/2);
+    cornerLowerRight = CGPointMake(self.position.x + self.contentSize.width/2, self.position.y - self.contentSize.height/2);
+    cornerUpperLeft = CGPointMake(self.position.x - self.contentSize.width/2, self.position.y + self.contentSize.height/2);
+    cornerLowerLeft = CGPointMake(self.position.x - self.contentSize.width/2, self.position.y - self.contentSize.height/2);
+    
+    [cornerArray removeAllObjects];
+    [cornerArray addObject:[NSValue valueWithCGPoint:cornerLowerLeft]];
+    [cornerArray addObject:[NSValue valueWithCGPoint:cornerUpperLeft]];
+    [cornerArray addObject:[NSValue valueWithCGPoint:cornerUpperRight]];
+    [cornerArray addObject:[NSValue valueWithCGPoint:cornerLowerRight]];
+
+}
+
+- (void) dealloc{
+
+    self.cornerArray = nil;
+    [super dealloc];
+
+}
+
+@end

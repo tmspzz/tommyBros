@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="64" height="12" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="ScrollingTileSet" tilewidth="64" tileheight="64">
+  <image source="ScrollingTileSet.png" width="320" height="256"/>
+ </tileset>
+ <tileset firstgid="21" name="Retro Coin" tilewidth="64" tileheight="64">
+  <image source="RetroCoin.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="22" name="collidablesTileSet" tilewidth="64" tileheight="64">
+  <image source="collidablesTileSet.png" width="192" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="Collidable" value="True"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Collectable" value="True"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Collidable" value="True"/>
+    <property name="Fatal" value="True"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Background" width="64" height="12">
+  <data encoding="base64" compression="zlib">
+   eJzllFsPgyAMhWHu4q5u4P//resDJA0pWOhJtsSHL1GLh1NO1TvnDsREHInTzjgTF2Imrn/gZxQ/mOOdeBBP4mXQ+XU/qBxrOp+C8r01we8t/Us+QkKT4+i+KB3LTEo+okFLIjbOEkXOsJWbhuAw8+2T1gTwxL1tZajZK27UEXOZfcyg/hEaq0BZk9bX6jWfed5DOsOad/7NtvoLjMj0+bV1thCzyfsOwrPyvy6xMDTrezWR9Pp4K7gxNOt7NZGg/O2l/y+MNRou
+  </data>
+ </layer>
+ <objectgroup name="Objects" width="64" height="12">
+  <object name="StartP1" x="7" y="518" width="56" height="55">
+   <properties>
+    <property name="SpawnP1" value=""/>
+   </properties>
+  </object>
+  <object name="StartP2" x="67" y="518" width="56" height="55">
+   <properties>
+    <property name="SpawnP2" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="Foreground" width="64" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4AwEEXDuNRgY1PL/pEKaOV3eoUpvjSDrIYeYDQdka8Xn35a5n1c9qCLj+S4pQYYDcNRMApGFgAAvM8B5A==
+  </data>
+ </layer>
+ <layer name="Meta" width="64" height="12">
+  <data encoding="base64" compression="zlib">
+   eJztlNEOgCAIRfkK5f+/tPXQdmOAmtf5kGdjo6QLiClyOLSpxqIYz2fl30kxFq3jM4un9yj3rO5qsjODMRlKrOWBuZcZs3Nj1VlBa7SmaIYF1sXxe3P1zje7e1pnCOtg/EtMDe9u8fS/9HDHaMe3dg8zfaxXQR/93di+S/IuM5V3XwzTRTZax+HfXG7rDVY=
+  </data>
+ </layer>
+ <objectgroup name="Physics" width="64" height="12">
+  <object name="GND1" x="0" y="576" width="576" height="192"/>
+  <object name="BLK1" x="448" y="512" width="128" height="64"/>
+  <object name="FLT1" x="640" y="192" width="256" height="64"/>
+  <object name="GND2" x="768" y="576" width="1152" height="192"/>
+  <object name="FLT2" x="1152" y="192" width="128" height="64"/>
+  <object name="FLT3" x="1408" y="192" width="64" height="64"/>
+  <object name="BLK7" x="1600" y="320" width="128" height="128"/>
+  <object name="BLK2" x="896" y="512" width="192" height="64"/>
+  <object name="BLK3" x="960" y="448" width="128" height="64"/>
+  <object name="BLK4" x="1024" y="384" width="64" height="64"/>
+  <object name="BLK5" x="1216" y="512" width="64" height="64"/>
+  <object name="BLK6" x="1408" y="512" width="64" height="64"/>
+  <object name="FLT4" x="2048" y="448" width="320" height="64"/>
+  <object name="FLT5" x="2496" y="448" width="128" height="64"/>
+  <object name="FLT6" x="2816" y="448" width="128" height="64"/>
+  <object name="FLT7" x="3008" y="448" width="128" height="64"/>
+  <object name="BLK8" x="2624" y="320" width="64" height="64"/>
+  <object name="BLK9" x="2752" y="192" width="128" height="64"/>
+  <object name="GND2" x="3328" y="576" width="768" height="192"/>
+  <object name="BLK10" x="3520" y="512" width="64" height="64"/>
+  <object name="BLK12" x="3648" y="512" width="128" height="64"/>
+  <object name="BLK11" x="3648" y="448" width="64" height="64"/>
+  <object name="BLK13" x="3776" y="384" width="128" height="192"/>
+  <object name="BLK14" x="3840" y="320" width="64" height="64"/>
+  <object name="BLK15" x="3968" y="320" width="128" height="256"/>
+  <object name="BLK16" x="4032" y="256" width="64" height="64"/>
+ </objectgroup>
+</map>
