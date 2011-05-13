@@ -7,10 +7,12 @@
 //
 
 #import "Player.h"
+#import "GameConfig.h"
 
 
 @implementation Player
-@synthesize velX, velY, accX, accY, isJumping, cornerArray, cornerLowerLeft, cornerLowerRight, cornerUpperLeft, cornerUpperRight;
+@synthesize velX, velY, maxVelY, isJumping, cornerArray, cornerLowerLeft;
+@synthesize cornerLowerRight, cornerUpperLeft, cornerUpperRight, isGrounded;
 
 
 + (Player *) playerWithFile: (NSString *) fileName tag:(const int)tag {
@@ -27,9 +29,9 @@
     
     velX = 0.0f;
     velY = 0.0f;
-    accX = 0.0f;
-    accY = 0.0f;
+    maxVelY = -64.0f;
     isJumping = NO;
+    isGrounded = YES;
     
     self.cornerArray = [NSMutableArray arrayWithCapacity:4];
     
@@ -50,6 +52,20 @@
     [cornerArray addObject:[NSValue valueWithCGPoint:cornerUpperLeft]];
     [cornerArray addObject:[NSValue valueWithCGPoint:cornerUpperRight]];
     [cornerArray addObject:[NSValue valueWithCGPoint:cornerLowerRight]];
+
+}
+
+- (void) updateVelY {
+
+    if(!isGrounded){
+    
+        velY += kGravity;
+        if(velY < maxVelY){
+            velY = maxVelY; 
+        
+        }
+    
+    }
 
 }
 

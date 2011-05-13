@@ -45,8 +45,8 @@
 +(CCScene *) scene;
 - (void) step: (ccTime) dt;
 - (CGPoint)tileCoordForPosition:(CGPoint)position;
-- (BOOL) willPlayer:(Player *) player collideOnYWithWorldAtLocation:(CGPoint) location;
-- (BOOL) willPlayer:(Player *) player collideOnXWithWorldAtLocation:(CGPoint) location;
+- (BOOL) willPlayerCollideOnYWithWorld:(Player *) player;
+- (BOOL) willPlayerCollideOnXWithWorld:(Player *) player;
 - (BOOL) willPlayerCollidingWithObjects: (Player *) player;
 
 @end

@@ -19,7 +19,7 @@
 #define kGameAutorotationCCDirector 1
 #define kGameAutorotationUIViewController 2
 
-#define kGravity -30.0f
+#define kGravity -2.0f
 
 #pragma mark Pad Constants
 
