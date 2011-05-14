@@ -116,6 +116,19 @@
         }
         
     }
+    
+    [_player2 updateVelY];
+    if(![self resolvePlayerWorldCollision:_player2])
+    {
+        
+        [_player2 updatePosition];
+        if(![self isOnGround:_player2]){
+            
+            _player2.isGrounded = NO;
+            
+        }
+        
+    }
 
 }
 
@@ -216,14 +229,14 @@
     switch (padNumber) {
         case kPadP1:
             if(!_player1.isJumping){
-                _player1.velY = 64.0f;
+                _player1.velY = kJumpVelocity;
                 _player1.isJumping = YES;
                 _player1.isGrounded = NO;
             }
             break;
         case kPadP2:
             if(!_player2.isJumping){
-                _player2.velY = 64.0f;
+                _player2.velY = kJumpVelocity;
                 _player2.isJumping = YES;
                 _player2.isGrounded = NO;
             }
@@ -241,20 +254,20 @@
         case kPadP1:
             switch (direction) {
                 case kDirRight:
-                    _player1.velX = 4.0f;
+                    _player1.velX = kWalkVelocity;
                     _player1.scaleX = 1;
                     break;
                 case kDirDiagRightUp:
-                    _player1.velX = 2.0f;
+                    _player1.velX = kWalkVelocity-2;
                     _player1.scaleX = 1;
 
                     break;
                 case kDirDiagLeftUp:
-                    _player1.velX = -2.0f;
+                    _player1.velX = -1*(kWalkVelocity-2);
                     _player1.scaleX = -1;
                     break;
                 case kDirLeft:
-                    _player1.velX = -4.0f;
+                    _player1.velX = -kWalkVelocity;
                     _player1.scaleX = -1;
                     break;
                 default:
@@ -266,19 +279,19 @@
         case kPadP2:
             switch (direction) {
                 case kDirRight:
-                    _player2.velX = 4.0f;
+                    _player2.velX = kWalkVelocity;
                     _player2.scaleX = 1;
                     break;
                 case kDirDiagRightUp:
-                    _player2.velX = 2.0f;
+                    _player2.velX = kWalkVelocity-2;
                     _player2.scaleX = 1;
                     break;
                 case kDirDiagLeftUp:
-                    _player2.velX = -2.0f;
+                    _player2.velX = -1*(kWalkVelocity-2);
                     _player2.scaleX = -1;
                     break;
                 case kDirLeft:
-                    _player2.velX = -4.0f;
+                    _player2.velX = -kWalkVelocity;
                     _player2.scaleX = -1;
                     break;
                 default:

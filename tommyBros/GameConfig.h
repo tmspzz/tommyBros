@@ -26,7 +26,7 @@
 #define kPadP1 1
 #define kPadP2 2
 
-#define kCenterTollerance 0.4f
+#define kCenterTollerance 0.3f
 
 #define kDirRight 1
 #define kDirDiagRightUp 2
@@ -42,6 +42,8 @@
 
 #define kPlayer1 1
 #define kPlayer2 2
+#define kWalkVelocity 6
+#define kJumpVelocity 44
 
 //
 // Define here the type of autorotation that you want for your game
