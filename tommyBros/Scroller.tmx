@@ -25,7 +25,7 @@
    </properties>
   </tile>
  </tileset>
- <layer name="Background" width="64" height="12" visible="0">
+ <layer name="Background" width="64" height="12">
   <data encoding="base64" compression="zlib">
    eJzllFsPgyAMhWHu4q5u4P//resDJA0pWOhJtsSHL1GLh1NO1TvnDsREHInTzjgTF2Imrn/gZxQ/mOOdeBBP4mXQ+XU/qBxrOp+C8r01we8t/Us+QkKT4+i+KB3LTEo+okFLIjbOEkXOsJWbhuAw8+2T1gTwxL1tZajZK27UEXOZfcyg/hEaq0BZk9bX6jWfed5DOsOad/7NtvoLjMj0+bV1thCzyfsOwrPyvy6xMDTrezWR9Pp4K7gxNOt7NZGg/O2l/y+MNRou
   </data>
@@ -52,7 +52,7 @@
    eJztlNEOgCAIRfkK5f+/tPXQdmOAmtf5kGdjo6QLiClyOLSpxqIYz2fl30kxFq3jM4un9yj3rO5qsjODMRlKrOWBuZcZs3Nj1VlBa7SmaIYF1sXxe3P1zje7e1pnCOtg/EtMDe9u8fS/9HDHaMe3dg8zfaxXQR/93di+S/IuM5V3XwzTRTZax+HfXG7rDVY=
   </data>
  </layer>
- <objectgroup name="Physics" width="64" height="12" visible="0">
+ <objectgroup name="Physics" width="64" height="12">
   <object name="GND1" x="0" y="576" width="576" height="192"/>
   <object name="BLK1" x="448" y="512" width="128" height="64"/>
   <object name="FLT1" x="640" y="192" width="256" height="64"/>

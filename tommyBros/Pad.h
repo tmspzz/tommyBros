@@ -15,10 +15,12 @@
 @interface Pad : CCSprite  <CCTargetedTouchDelegate> {
     
     id <PadProtocolDelegate> delegate;
+    BOOL isBeingUsed;
     
 }
 
 @property (nonatomic, assign) id delegate;
+@property (nonatomic, assign) BOOL isBeingUsed;
 
 + (Pad *) padWithFile: (NSString *) fileName tag:(const int) tag;
 - (Pad *) initWithFile: (NSString *) fileName tag:(const int) tag;;

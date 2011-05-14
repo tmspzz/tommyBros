@@ -11,7 +11,7 @@
 
 @implementation Pad
 
-@synthesize delegate;
+@synthesize delegate, isBeingUsed;
 
 + (Pad *) padWithFile: (NSString *) fileName tag:(const int)tag {
     
@@ -54,18 +54,24 @@
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
     
-   if ( ![self containsTouchLocation:touch] ) return NO;
+    
+    if(isBeingUsed) return NO;
+    
+    if ( ![self containsTouchLocation:touch] ) return NO;
+    
+    isBeingUsed = YES;
     
     if(delegate && [delegate respondsToSelector:@selector(touchAtLocation: forPad:)]){
         
         CGPoint convdtouch = [self convertTouchToNodeSpaceAR:touch];
         CGPoint modTouch = CGPointMake(convdtouch.x/(self.contentSizeInPixels.width/2), convdtouch.y/(self.contentSizeInPixels.height/2));
-    
+        
         [delegate touchAtLocation:modTouch forPad:self];
         
+        return YES;
     }
     
-	return YES;
+    return NO;
 }
 
 - (void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
@@ -85,6 +91,8 @@
 }
 
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event{
+    
+    isBeingUsed = NO;
 
     if(delegate && [delegate respondsToSelector:@selector(touchLiftedForPad:)]){
     
