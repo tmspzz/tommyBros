@@ -42,10 +42,10 @@
 
     [super setPosition:position];
     
-    cornerUpperRight = CGPointMake(self.position.x + self.contentSize.width/2, self.position.y + self.contentSize.height/2);
-    cornerLowerRight = CGPointMake(self.position.x + self.contentSize.width/2, self.position.y - self.contentSize.height/2);
-    cornerUpperLeft = CGPointMake(self.position.x - self.contentSize.width/2, self.position.y + self.contentSize.height/2);
-    cornerLowerLeft = CGPointMake(self.position.x - self.contentSize.width/2, self.position.y - self.contentSize.height/2);
+    cornerUpperRight = CGPointMake(self.position.x + (self.contentSize.width/2)-1, self.position.y + (self.contentSize.height/2)-1);
+    cornerLowerRight = CGPointMake(self.position.x + (self.contentSize.width/2)-1, self.position.y - (self.contentSize.height/2)+1);
+    cornerUpperLeft = CGPointMake(self.position.x - (self.contentSize.width/2)+1, self.position.y + (self.contentSize.height/2)-1);
+    cornerLowerLeft = CGPointMake(self.position.x - (self.contentSize.width/2)+1, self.position.y - (self.contentSize.height/2)+1);
     
     [cornerArray removeAllObjects];
     [cornerArray addObject:[NSValue valueWithCGPoint:cornerLowerLeft]];
@@ -66,6 +66,11 @@
         }
     
     }
+
+}
+- (void) updatePosition {
+
+    self.position = ccp(self.position.x + velX, self.position.y + velY);
 
 }
 

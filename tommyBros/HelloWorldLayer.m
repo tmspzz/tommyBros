@@ -104,119 +104,103 @@
 	int steps = 1;
 	CGFloat dt = delta/(CGFloat)steps;
     
-    if(![self willPlayerCollideOnXWithWorld:_player1]){
-        
-        if(![self willPlayerCollideOnYWithWorld:_player1]){
+    [_player1 updateVelY];
+    if(![self resolvePlayerWorldCollision:_player1])
+    {
+    
+        [_player1 updatePosition];
+        if(![self isOnGround:_player1]){
             
             _player1.isGrounded = NO;
-            _player1.position = ccp(_player1.position.x+_player1.velX, _player1.position.y + _player1.velY);
-            NSLog(@"Player y pos = %f", _player1.position.y);
-            [_player1 updateVelY];
-            
+        
         }
-
         
     }
+
+}
+
+- (BOOL) resolvePlayerWorldCollision:(Player *)player
+{
+    int pTop = player.cornerUpperRight.y;
+    int pBottom = player.cornerLowerRight.y;
+    int pRight = player.cornerUpperRight.x;
+    int pLeft = player.cornerLowerLeft.x;
     
+    CGPoint tileCoord = [self tileCoordForPosition:player.position];
+    int tileGid = [_metaLayer tileGIDAt:tileCoord];
+    if(tileGid)
+    {
+        NSDictionary *properties = [_map propertiesForGID:tileGid];
+        if (properties)
+        {
+            NSString *collision = [properties valueForKey:@"Collidable"];
+            if([collision isEqualToString:@"True"])
+            {
+                int sTop = (_map.mapSize.height - tileCoord.y) * _map.tileSize.height;
+                int sBottom = sTop - _map.tileSize.height;
+                int sLeft = tileCoord.x * _map.tileSize.width;
+                int sRight = sLeft + _map.tileSize.width;
+                
+                int xVelocity = player.velX;
+                int yVelocity = player.velY;
+                
+                if (pBottom + yVelocity <= sTop && yVelocity < 0) {
+                    player.position = ccp(player.position.x, player.position.y - (pBottom - sTop));
+                    player.velY = 0;
+                    player.isGrounded = YES;
+                    player.isJumping = NO; 
+                    return YES;
+                }
+                if (pTop + yVelocity >= sBottom && yVelocity > 0) {
+                    player.position = ccp(player.position.x, player.position.y - (pTop - sBottom) + 1);
+                    player.velY = 0;
+                    return YES;
+                }
+                if (pLeft <= sRight && sRight < pRight && xVelocity <= 0) {
+                    player.position = ccp(player.position.x + (sRight - pLeft), player.position.y);
+                    player.velX = 0;
+                    return YES;
+                }
+                if (pRight >= sLeft && sLeft > pLeft && xVelocity >= 0) {
+                    player.position = ccp(player.position.x + (sLeft - pRight), player.position.y);
+                    player.velX = 0;
+                    return YES;
+                }
+                
+            }
+        }
+    }
+    return NO;
+}
 
-
+- (BOOL) isOnGround:(Player *)player
+{
+    CGPoint belowPlayer = ccp(player.position.x, player.position.y - player.contentSize.height/2);
     
-    //_player1.position = ccp(_player1.position.x+_player1.velX, _player1.position.y);
+    CGPoint tileCoord = [self tileCoordForPosition:belowPlayer];
+    int tileGid = [_metaLayer tileGIDAt:tileCoord];
+    if(tileGid)
+    {
+        NSDictionary *properties = [_map propertiesForGID:tileGid];
+        if (properties)
+        {
+            NSString *collision = [properties valueForKey:@"Collidable"];
+            if([collision isEqualToString:@"True"])
+            {
+                return YES;
+            }
 
-       
+        }
+    }
+    
+    return NO;
 }
 
 - (BOOL) willPlayerCollideOnYWithWorld:(Player *)player{
     
-    BOOL collided = NO;
+    return YES;
     
-    CGPoint bottomCenter = ccp(player.position.x , player.position.y - player.contentSize.height/2 +1);
-    
-    CGPoint tileCoord = [self tileCoordForPosition:bottomCenter];
-    int tileGid = [_metaLayer tileGIDAt:tileCoord];
-    if(tileGid){
-        NSDictionary *properties = [_map propertiesForGID:tileGid];
-        if (properties) {
-            
-            NSString *collision = [properties valueForKey:@"Collidable"];
-            if([collision isEqualToString:@"True"]){
-                
-                short int displacement = 0;
-                
-                float tileTop = (_map.mapSize.height - tileCoord.y) * _map.tileSize.height;
-                float tileBottom = tileTop - _map.tileSize.height;
-                
-                float playerTop = player.cornerUpperRight.y;
-                float playerBottom = player.cornerLowerRight.y;
-                
-                if(playerBottom + player.velY < tileTop && player.velY <= 0){
-                    
-                    displacement = tileTop - playerBottom;
-                    player.isGrounded = YES;
-                    player.isJumping = NO;
-                    player.velY = 0;
-                    player.position = ccp(player.position.x, player.position.y + displacement);
-                    return collided = YES;
-                }
-                if(playerTop + player.velY >= tileBottom && player.velY >= 0 && playerTop){
-                    
-                    displacement = (playerTop - tileBottom)*-1;
-                    player.velY = 0;
-                    player.position = ccp(player.position.x, player.position.y + displacement);
-                    return collided = YES;
-                }  
-            }
-        }
-    }
-    return collided;
 }
-
-- (BOOL) willPlayerCollideOnXWithWorld:(Player *)player{
-    
-    BOOL collided = NO;
-    
-    //for (NSValue *value in player.cornerArray){
-        
-        //CGPoint corner = [value CGPointValue];
-    CGPoint rightCenter = ccp(player.cornerUpperRight.x -1, player.position.y);
-        CGPoint tileCoord = [self tileCoordForPosition:rightCenter];
-        int tileGid = [_metaLayer tileGIDAt:tileCoord];
-        if(tileGid){
-            
-            NSDictionary *properties = [_map propertiesForGID:tileGid];
-            if (properties) {
-                NSString *collision = [properties valueForKey:@"Collidable"];
-                if([collision isEqualToString:@"True"]){
-                    
-                    short int displacement  = 0;
-                    
-                    float tileLeft = tileCoord.x * _map.tileSize.width;
-                    float tileRight = tileLeft + _map.tileSize.width;
-                    
-                    float playerLeft = player.cornerLowerLeft.x;
-                    float playerRight = player.cornerLowerRight.x;
-                    
-                    if(playerRight >= tileLeft && tileLeft > playerLeft && player.velX >=0) {
-                        displacement = (playerRight - tileLeft)*-1;
-                        player.velX = 0;
-                        player.position = ccp(player.position.x + displacement , player.position.y);
-                        return collided = YES;
-                    }
-                    if(playerLeft <= tileRight && tileRight < playerRight && player.velX <= 0){
-                        
-                        displacement = tileRight - playerLeft;
-                        player.velX = 0;
-                        player.position = ccp(player.position.x + displacement , player.position.y);
-                        return collided = YES;
-
-                    }
-                }
-            }
-        }
-    //}
-    return collided;
-}
-
 
 - (CGPoint)tileCoordForPosition:(CGPoint)position {
     int x = position.x / _map.tileSize.width;

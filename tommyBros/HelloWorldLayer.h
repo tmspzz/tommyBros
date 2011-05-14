@@ -43,10 +43,8 @@
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
-- (void) step: (ccTime) dt;
 - (CGPoint)tileCoordForPosition:(CGPoint)position;
-- (BOOL) willPlayerCollideOnYWithWorld:(Player *) player;
-- (BOOL) willPlayerCollideOnXWithWorld:(Player *) player;
-- (BOOL) willPlayerCollidingWithObjects: (Player *) player;
+- (BOOL) resolvePlayerWorldCollision:(Player *) player;
+- (BOOL) isOnGround:(Player *) player;
 
 @end

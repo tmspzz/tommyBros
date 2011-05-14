@@ -43,6 +43,7 @@
 - (id)initWithFile:(NSString *)fileName tag:(const int)tag;
 - (void) setPosition:(CGPoint)position;
 - (void) updateVelY;
+- (void) updatePosition;
 
 @end
 
