@@ -19,7 +19,7 @@
 #define kGameAutorotationCCDirector 1
 #define kGameAutorotationUIViewController 2
 
-#define kGravity -4.0f
+#define kGravity -2.0f
 
 #pragma mark Pad Constants
 
@@ -43,7 +43,7 @@
 #define kPlayer1 1
 #define kPlayer2 2
 #define kWalkVelocity 6
-#define kJumpVelocity 44
+#define kJumpVelocity 28
 
 //
 // Define here the type of autorotation that you want for your game

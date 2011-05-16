@@ -24,6 +24,7 @@
     
 	self = [super initWithFile:fileName];
     self.tag = tag;
+    self.isBeingUsed = NO;
 	return self;
 }
 
@@ -42,6 +43,7 @@
 - (void)onExit {
     
 	[[CCTouchDispatcher sharedDispatcher] removeDelegate:self];
+    self.isBeingUsed = NO;
 	[super onExit];
 }	
 
@@ -49,7 +51,8 @@
 {
 	CGPoint p = [self convertTouchToNodeSpaceAR:touch];
 	CGRect r = [self rectInPixels];
-	return CGRectContainsPoint(r, p);
+	BOOL isContained = CGRectContainsPoint(r, p);
+    return isContained;
 }
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
@@ -57,7 +60,8 @@
     
     if(isBeingUsed) return NO;
     
-    if ( ![self containsTouchLocation:touch] ) return NO;
+    if ( ![self containsTouchLocation:touch] ) 
+        return NO;
     
     isBeingUsed = YES;
     

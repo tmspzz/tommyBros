@@ -33,7 +33,7 @@
     
     HUD *hud = [HUD sharedHUD];
     
-	[scene addChild:hud z:10 tag:123];
+	[scene addChild:hud z:10];
 	
 	// 'layer' is an autorelease object.
 	HelloWorldLayer *layer = [HelloWorldLayer node];
@@ -75,7 +75,7 @@
         
         self.hud = [HUD sharedHUD];
         _hud.delegate = self;
-        //[[CCScene node] addChild:_hud z:-10];
+        numCoins = 0;
         
         _hud.padP1.position = ccp(_map.tileSize.width * 1.5, _map.tileSize.height * 1.5);
         _hud.padP2.position = ccp(winSize.width - _map.tileSize.width * 4.5, _map.tileSize.height * 1.5);
@@ -98,8 +98,9 @@
         [self addChild:_player2];
         
         [[SimpleAudioEngine sharedEngine] preloadEffect:@"coin.caf"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"jump.caf"];
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"game_over.caf"];
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"smb_over.caf"];
-        
         
         [self scheduleUpdate];
 
@@ -245,6 +246,8 @@
                     [_metaLayer removeTileAt:tileCoord];
                     [_foregroundLayer removeTileAt:tileCoord];
                     [[SimpleAudioEngine sharedEngine] playEffect:@"coin.caf"];
+                    numCoins++;
+                    [_hud.coins setString:[NSString stringWithFormat:@"Coins :%d", numCoins]];
                 
                 }
                 
@@ -268,11 +271,28 @@
         NSDictionary *properties = [_map propertiesForGID:tileGid];
         if (properties)
         {
+            
+            NSString *fatality = [properties valueForKey:@"Fatal"];
+            if(fatality && [fatality isEqualToString:@"True"])
+            {
+                numAttempts++;  
+                [_hud.attempts setString:[NSString stringWithFormat:@"Attempts :%d", numAttempts]];
+                [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+                CCScene *gameOverScene = [GameOverScene node];
+                numCoins = 0;
+                [_hud.coins setString:[NSString stringWithFormat:@"Coins :%d", numCoins]];
+                [[CCDirector sharedDirector] replaceScene:gameOverScene];
+                
+                return YES;
+                
+            }
+            
             NSString *collision = [properties valueForKey:@"Collidable"];
             if([collision isEqualToString:@"True"])
             {
                 return YES;
             }
+
 
         }
     }
@@ -299,6 +319,8 @@
                 _player1.velY = kJumpVelocity;
                 _player1.isJumping = YES;
                 _player1.isGrounded = NO;
+                [[SimpleAudioEngine sharedEngine] playEffect:@"jump.caf"];
+
             }
             break;
         case kPadP2:
@@ -306,6 +328,8 @@
                 _player2.velY = kJumpVelocity;
                 _player2.isJumping = YES;
                 _player2.isGrounded = NO;
+                [[SimpleAudioEngine sharedEngine] playEffect:@"jump.caf"];
+
             }
             break;
             

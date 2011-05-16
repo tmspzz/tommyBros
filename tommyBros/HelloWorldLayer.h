@@ -12,6 +12,9 @@
 #import "HUD.h"
 #import "HUDProtocolDelegate.h"
 #import "Player.h"
+#import "GameOverScene.h"
+
+static int numAttempts;
 
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer <HUDProtocolDelegate>
@@ -26,7 +29,7 @@
     HUD *_hud;
     Player *_player1;
     Player *_player2;
-    
+    int numCoins;
     
 }
 
