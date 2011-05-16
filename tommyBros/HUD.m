@@ -21,6 +21,32 @@
 @synthesize jumpButtonP2 = _jumpButtonP2;
 @synthesize delegate;
 
+static HUD *_sharedHUD = nil;
+
++ (HUD *)sharedHUD
+{
+    @synchronized([HUD class])
+    {
+        if (!_sharedHUD)
+            [[self alloc] init];
+        return _sharedHUD;
+    }
+    // to avoid compiler warning
+    return nil;
+}
+
++(id)alloc
+{
+    @synchronized([HUD class])
+    {
+        NSAssert(_sharedHUD == nil, @"Attempted to allocate a second instance of a singleton.");
+        _sharedHUD = [super alloc];
+        return _sharedHUD;
+    }
+    // to avoid compiler warning
+    return nil;
+}
+
 -(id) init {
     
     if((self = [super init])){

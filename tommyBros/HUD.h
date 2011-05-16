@@ -31,7 +31,11 @@
 @property (nonatomic, retain) CCMenuItem *jumpButtonP2;
 @property (nonatomic, assign) id delegate;
 
++ (HUD *) sharedHUD;
++(id) alloc;
 - (void) jumpActionP1;
 - (void) jumpActionP2;
+
+
 
 @end

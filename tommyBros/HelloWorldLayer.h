@@ -46,5 +46,6 @@
 - (CGPoint)tileCoordForPosition:(CGPoint)position;
 - (BOOL) resolvePlayerWorldCollision:(Player *) player;
 - (BOOL) isOnGround:(Player *) player;
+- (void) scrollMap;
 
 @end

@@ -137,6 +137,11 @@
 		8A839784137AE5B500853BE3 /* RetroCoin.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A83977E137AE5B500853BE3 /* RetroCoin.png */; };
 		8A839785137AE5B500853BE3 /* Scroller.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 8A83977F137AE5B500853BE3 /* Scroller.tmx */; };
 		8A839786137AE5B500853BE3 /* ScrollingTileSet.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A839780137AE5B500853BE3 /* ScrollingTileSet.png */; };
+		8A8576971381655700E9D806 /* smb_over.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8A8576961381655700E9D806 /* smb_over.caf */; };
+		8A85769A1381661400E9D806 /* coin.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8A8576991381661400E9D806 /* coin.caf */; };
+		8A85769E138168CC00E9D806 /* dead.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8A85769B138168CC00E9D806 /* dead.caf */; };
+		8A85769F138168CC00E9D806 /* victory.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8A85769C138168CC00E9D806 /* victory.caf */; };
+		8A8576A0138168CC00E9D806 /* game_over.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8A85769D138168CC00E9D806 /* game_over.caf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -392,6 +397,11 @@
 		8A83977E137AE5B500853BE3 /* RetroCoin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RetroCoin.png; sourceTree = "<group>"; };
 		8A83977F137AE5B500853BE3 /* Scroller.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Scroller.tmx; sourceTree = "<group>"; };
 		8A839780137AE5B500853BE3 /* ScrollingTileSet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ScrollingTileSet.png; sourceTree = "<group>"; };
+		8A8576961381655700E9D806 /* smb_over.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = smb_over.caf; sourceTree = "<group>"; };
+		8A8576991381661400E9D806 /* coin.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = coin.caf; sourceTree = "<group>"; };
+		8A85769B138168CC00E9D806 /* dead.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dead.caf; sourceTree = "<group>"; };
+		8A85769C138168CC00E9D806 /* victory.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = victory.caf; sourceTree = "<group>"; };
+		8A85769D138168CC00E9D806 /* game_over.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = game_over.caf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -477,6 +487,11 @@
 		8A839621137AE3B900853BE3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8A85769B138168CC00E9D806 /* dead.caf */,
+				8A85769C138168CC00E9D806 /* victory.caf */,
+				8A85769D138168CC00E9D806 /* game_over.caf */,
+				8A8576991381661400E9D806 /* coin.caf */,
+				8A8576961381655700E9D806 /* smb_over.caf */,
 				8A3B2D56137BCCDD00E8CF22 /* jumpButtonN.png */,
 				8A3B2D57137BCCDD00E8CF22 /* jumpButtonS.png */,
 				8A2210E0137AF46B0073191B /* padP1.png */,
@@ -820,6 +835,11 @@
 				8A2210E3137AF46B0073191B /* padP2.png in Resources */,
 				8A3B2D58137BCCDD00E8CF22 /* jumpButtonN.png in Resources */,
 				8A3B2D59137BCCDD00E8CF22 /* jumpButtonS.png in Resources */,
+				8A8576971381655700E9D806 /* smb_over.caf in Resources */,
+				8A85769A1381661400E9D806 /* coin.caf in Resources */,
+				8A85769E138168CC00E9D806 /* dead.caf in Resources */,
+				8A85769F138168CC00E9D806 /* victory.caf in Resources */,
+				8A8576A0138168CC00E9D806 /* game_over.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

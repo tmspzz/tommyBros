@@ -10,6 +10,7 @@
 // Import the interfaces
 #import "HelloWorldLayer.h"
 #import "GameConfig.h"
+#import "SimpleAudioEngine.h"
 
 // HelloWorldLayer implementation
 @implementation HelloWorldLayer
@@ -29,13 +30,17 @@
 {
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
+    
+    HUD *hud = [HUD sharedHUD];
+    
+	[scene addChild:hud z:10 tag:123];
 	
 	// 'layer' is an autorelease object.
 	HelloWorldLayer *layer = [HelloWorldLayer node];
 	
 	// add layer as a child to scene
 	[scene addChild: layer];
-	
+    
 	// return the scene
 	return scene;
 }
@@ -51,6 +56,7 @@
         
         self.map = [CCTMXTiledMap tiledMapWithTMXFile:@"Scroller.tmx"];
         self.backgroundLayer = [_map layerNamed:@"Background"];
+        self.backgroundLayer.visible = YES;
         
         self.metaLayer = [_map layerNamed:@"Meta"];
         _metaLayer.visible = NO;
@@ -67,9 +73,9 @@
 		
 		[self addChild:_map z:-1];
         
-        self.hud = [HUD node];
+        self.hud = [HUD sharedHUD];
         _hud.delegate = self;
-        [self addChild:_hud z:0];
+        //[[CCScene node] addChild:_hud z:-10];
         
         _hud.padP1.position = ccp(_map.tileSize.width * 1.5, _map.tileSize.height * 1.5);
         _hud.padP2.position = ccp(winSize.width - _map.tileSize.width * 4.5, _map.tileSize.height * 1.5);
@@ -90,6 +96,9 @@
 
         [self addChild:_player1];
         [self addChild:_player2];
+        
+        [[SimpleAudioEngine sharedEngine] preloadEffect:@"coin.caf"];
+        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"smb_over.caf"];
         
         
         [self scheduleUpdate];
@@ -129,8 +138,50 @@
         }
         
     }
+    
+    [self scrollMap];
 
 }
+
+#pragma mark Map Scrolling
+
+- (void) scrollMap {
+    
+    CGPoint actualPosition;
+    int x = 0;
+
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    CGPoint centerOfView = ccp(winSize.width/2, winSize.height/2);
+    
+    int p1DistCenterScrX = _player1.position.x -  _map.mapSize.width/2*_map.tileSize.width;
+    int p2DistCenterScrX = _player2.position.x -  _map.mapSize.width/2*_map.tileSize.width;
+    
+    int furthest = MAX(abs(p1DistCenterScrX), abs(p2DistCenterScrX));
+    
+    if(furthest == abs(p1DistCenterScrX)){
+        
+        x = MAX(_player1.position.x, winSize.width/2);
+    
+    }else if(furthest == abs(p2DistCenterScrX)){
+    
+        x = MAX(_player2.position.x, winSize.width/2);
+    
+    }
+   
+    x = MIN(x, (_map.mapSize.width * _map.tileSize.width) - winSize.width/2);
+    
+    actualPosition = ccp(x, winSize.height/2);
+    
+   
+    
+    CGPoint viewPoint = ccpSub(centerOfView, actualPosition);
+
+    self.position = viewPoint;
+
+}
+
+
+#pragma mark Collission Detection
 
 - (BOOL) resolvePlayerWorldCollision:(Player *)player
 {
@@ -139,51 +190,71 @@
     int pRight = player.cornerUpperRight.x;
     int pLeft = player.cornerLowerLeft.x;
     
-    CGPoint tileCoord = [self tileCoordForPosition:player.position];
-    int tileGid = [_metaLayer tileGIDAt:tileCoord];
-    if(tileGid)
-    {
-        NSDictionary *properties = [_map propertiesForGID:tileGid];
-        if (properties)
+    
+    int xVelocity = player.velX;
+    int yVelocity = player.velY;
+    
+    if(player.position.x + xVelocity <= (_map.mapSize.width * _map.tileSize.width) &&
+       player.position.y + yVelocity <= (_map.mapSize.height * _map.tileSize.height) &&
+       player.position.y + yVelocity >= 0 &&
+       player.position.x + xVelocity >= 0 ){
+        
+        CGPoint tileCoord = [self tileCoordForPosition:player.position];
+        int tileGid = [_metaLayer tileGIDAt:tileCoord];
+        if(tileGid)
         {
-            NSString *collision = [properties valueForKey:@"Collidable"];
-            if([collision isEqualToString:@"True"])
+            NSDictionary *properties = [_map propertiesForGID:tileGid];
+            if (properties)
             {
-                int sTop = (_map.mapSize.height - tileCoord.y) * _map.tileSize.height;
-                int sBottom = sTop - _map.tileSize.height;
-                int sLeft = tileCoord.x * _map.tileSize.width;
-                int sRight = sLeft + _map.tileSize.width;
+                NSString *collision = [properties valueForKey:@"Collidable"];
+                if(collision && [collision isEqualToString:@"True"])
+                {
+                    int sTop = (_map.mapSize.height - tileCoord.y) * _map.tileSize.height;
+                    int sBottom = sTop - _map.tileSize.height;
+                    int sLeft = tileCoord.x * _map.tileSize.width;
+                    int sRight = sLeft + _map.tileSize.width;
+                    
+                    if (pBottom + yVelocity <= sTop && yVelocity < 0) {
+                        player.position = ccp(player.position.x, player.position.y - (pBottom - sTop));
+                        player.velY = 0;
+                        player.isGrounded = YES;
+                        player.isJumping = NO; 
+                        return YES;
+                    }
+                    if (pTop + yVelocity >= sBottom && yVelocity > 0) {
+                        player.position = ccp(player.position.x, player.position.y - (pTop - sBottom) + 1);
+                        player.velY = 0;
+                        return YES;
+                    }
+                    if (pLeft <= sRight && sRight < pRight && xVelocity <= 0) {
+                        player.position = ccp(player.position.x + (sRight - pLeft), player.position.y);
+                        player.velX = 0;
+                        return YES;
+                    }
+                    if (pRight >= sLeft && sLeft > pLeft && xVelocity >= 0) {
+                        player.position = ccp(player.position.x + (sLeft - pRight), player.position.y);
+                        player.velX = 0;
+                        return YES;
+                    }
+                    
+                }
+                NSString *collectable = [properties valueForKey:@"Collectable"];
+                if(collectable && [collectable isEqualToString:@"True"])
+                {
+                    
+                    [_metaLayer removeTileAt:tileCoord];
+                    [_foregroundLayer removeTileAt:tileCoord];
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"coin.caf"];
                 
-                int xVelocity = player.velX;
-                int yVelocity = player.velY;
-                
-                if (pBottom + yVelocity <= sTop && yVelocity < 0) {
-                    player.position = ccp(player.position.x, player.position.y - (pBottom - sTop));
-                    player.velY = 0;
-                    player.isGrounded = YES;
-                    player.isJumping = NO; 
-                    return YES;
-                }
-                if (pTop + yVelocity >= sBottom && yVelocity > 0) {
-                    player.position = ccp(player.position.x, player.position.y - (pTop - sBottom) + 1);
-                    player.velY = 0;
-                    return YES;
-                }
-                if (pLeft <= sRight && sRight < pRight && xVelocity <= 0) {
-                    player.position = ccp(player.position.x + (sRight - pLeft), player.position.y);
-                    player.velX = 0;
-                    return YES;
-                }
-                if (pRight >= sLeft && sLeft > pLeft && xVelocity >= 0) {
-                    player.position = ccp(player.position.x + (sLeft - pRight), player.position.y);
-                    player.velX = 0;
-                    return YES;
                 }
                 
             }
         }
+        
+        return NO;
     }
-    return NO;
+    
+    return YES;
 }
 
 - (BOOL) isOnGround:(Player *)player
@@ -209,11 +280,7 @@
     return NO;
 }
 
-- (BOOL) willPlayerCollideOnYWithWorld:(Player *)player{
-    
-    return YES;
-    
-}
+#pragma mark Utility methods
 
 - (CGPoint)tileCoordForPosition:(CGPoint)position {
     int x = position.x / _map.tileSize.width;
