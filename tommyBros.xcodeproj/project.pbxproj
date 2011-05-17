@@ -12,7 +12,7 @@
 		8A2210E3137AF46B0073191B /* padP2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A2210E1137AF46B0073191B /* padP2.png */; };
 		8A2210E7137AF4A10073191B /* Pad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2210E6137AF4A10073191B /* Pad.m */; };
 		8A32ED71138171610085EB17 /* jump.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8A32ED70138171610085EB17 /* jump.caf */; };
-		8A32ED75138183DE0085EB17 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A32ED74138183DE0085EB17 /* GameOverScene.m */; };
+		8A32ED75138183DE0085EB17 /* CutScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A32ED74138183DE0085EB17 /* CutScene.m */; };
 		8A3B2D58137BCCDD00E8CF22 /* jumpButtonN.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A3B2D56137BCCDD00E8CF22 /* jumpButtonN.png */; };
 		8A3B2D59137BCCDD00E8CF22 /* jumpButtonS.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A3B2D57137BCCDD00E8CF22 /* jumpButtonS.png */; };
 		8A3B2D5E137BE65300E8CF22 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A3B2D5D137BE65300E8CF22 /* Player.m */; };
@@ -155,8 +155,8 @@
 		8A2210E6137AF4A10073191B /* Pad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pad.m; sourceTree = "<group>"; };
 		8A2210E8137B09550073191B /* PadProtocolDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PadProtocolDelegate.h; sourceTree = "<group>"; };
 		8A32ED70138171610085EB17 /* jump.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = jump.caf; sourceTree = "<group>"; };
-		8A32ED73138183DE0085EB17 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
-		8A32ED74138183DE0085EB17 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
+		8A32ED73138183DE0085EB17 /* CutScene.h */ = {isa = PBXFileReference; fileEncoding = 4; path = CutScene.h; sourceTree = "<group>"; };
+		8A32ED74138183DE0085EB17 /* CutScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CutScene.m; sourceTree = "<group>"; };
 		8A3B2D56137BCCDD00E8CF22 /* jumpButtonN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jumpButtonN.png; sourceTree = "<group>"; };
 		8A3B2D57137BCCDD00E8CF22 /* jumpButtonS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jumpButtonS.png; sourceTree = "<group>"; };
 		8A3B2D5B137BE16C00E8CF22 /* HUDProtocolDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDProtocolDelegate.h; sourceTree = "<group>"; };
@@ -478,8 +478,8 @@
 				8A2210E8137B09550073191B /* PadProtocolDelegate.h */,
 				8A2210E5137AF4A10073191B /* Pad.h */,
 				8A2210E6137AF4A10073191B /* Pad.m */,
-				8A32ED73138183DE0085EB17 /* GameOverScene.h */,
-				8A32ED74138183DE0085EB17 /* GameOverScene.m */,
+				8A32ED73138183DE0085EB17 /* CutScene.h */,
+				8A32ED74138183DE0085EB17 /* CutScene.m */,
 				8A839621137AE3B900853BE3 /* Resources */,
 				8A839635137AE3B900853BE3 /* cocos2d */,
 				8A839726137AE3BB00853BE3 /* CocosDenshion */,
@@ -962,7 +962,7 @@
 				8A221060137AE9650073191B /* HUD.m in Sources */,
 				8A2210E7137AF4A10073191B /* Pad.m in Sources */,
 				8A3B2D5E137BE65300E8CF22 /* Player.m in Sources */,
-				8A32ED75138183DE0085EB17 /* GameOverScene.m in Sources */,
+				8A32ED75138183DE0085EB17 /* CutScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

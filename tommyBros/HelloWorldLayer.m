@@ -11,6 +11,7 @@
 #import "HelloWorldLayer.h"
 #import "GameConfig.h"
 #import "SimpleAudioEngine.h"
+#import "CutScene.h"
 
 // HelloWorldLayer implementation
 @implementation HelloWorldLayer
@@ -140,8 +141,30 @@
         
     }
     
+    if([self isVictory]){
+
+        [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+        CutScene *victoryScene = [CutScene nodeWithString:[NSString stringWithFormat:@"Hooray! You Win! Attempts:%d Coins:%d", numAttempts, numCoins] sound:@"victory.caf" andDuration:30.0];
+        numCoins = 0;
+        [_hud.coins setString:[NSString stringWithFormat:@"Coins :%d", numCoins]];
+        [[CCDirector sharedDirector] replaceScene:victoryScene];
+    
+    }
     [self scrollMap];
 
+}
+
+#pragma mark Game States
+
+- (BOOL) isVictory
+{
+    int lastTileX = _map.mapSize.width * _map.tileSize.width - (_map.tileSize.width*3/4);
+    if ( _player1.position.x > lastTileX && _player2.position.x > lastTileX)
+    {
+        return YES;
+    }
+
+    return NO;
 }
 
 #pragma mark Map Scrolling
@@ -186,11 +209,6 @@
 
 - (BOOL) resolvePlayerWorldCollision:(Player *)player
 {
-    int pTop = player.cornerUpperRight.y;
-    int pBottom = player.cornerLowerRight.y;
-    int pRight = player.cornerUpperRight.x;
-    int pLeft = player.cornerLowerLeft.x;
-    
     
     int xVelocity = player.velX;
     int yVelocity = player.velY;
@@ -198,59 +216,78 @@
     if(player.position.x + xVelocity <= (_map.mapSize.width * _map.tileSize.width) &&
        player.position.y + yVelocity <= (_map.mapSize.height * _map.tileSize.height) &&
        player.position.y + yVelocity >= 0 &&
-       player.position.x + xVelocity >= 0 ){
-        
-        CGPoint tileCoord = [self tileCoordForPosition:player.position];
-        int tileGid = [_metaLayer tileGIDAt:tileCoord];
-        if(tileGid)
+       player.position.x + xVelocity >= 0 )
+    {
+        for( NSValue *value in player.aabbArray)
         {
-            NSDictionary *properties = [_map propertiesForGID:tileGid];
-            if (properties)
+            int pTop = player.midTop.y;
+            int pBottom = player.midBottom.y;
+            int pRight = player.midRight.x;
+            int pLeft = player.midLeft.x;
+            
+            CGPoint position = [value CGPointValue];
+            CGPoint nextPosition = ccpAdd(position, ccp(xVelocity, yVelocity));
+            
+            CGPoint tileCoord = [self tileCoordForPosition:nextPosition];
+            int tileGid = [_metaLayer tileGIDAt:tileCoord];
+            if(tileGid)
             {
-                NSString *collision = [properties valueForKey:@"Collidable"];
-                if(collision && [collision isEqualToString:@"True"])
+                NSDictionary *properties = [_map propertiesForGID:tileGid];
+                if (properties)
                 {
-                    int sTop = (_map.mapSize.height - tileCoord.y) * _map.tileSize.height;
-                    int sBottom = sTop - _map.tileSize.height;
-                    int sLeft = tileCoord.x * _map.tileSize.width;
-                    int sRight = sLeft + _map.tileSize.width;
-                    
-                    if (pBottom + yVelocity <= sTop && yVelocity < 0) {
-                        player.position = ccp(player.position.x, player.position.y - (pBottom - sTop));
-                        player.velY = 0;
-                        player.isGrounded = YES;
-                        player.isJumping = NO; 
-                        return YES;
+                    NSString *collision = [properties valueForKey:@"Collidable"];
+                    if(collision && [collision isEqualToString:@"True"])
+                    {
+                        int sTop = (_map.mapSize.height - tileCoord.y) * _map.tileSize.height;
+                        int sBottom = sTop - _map.tileSize.height;
+                        int sLeft = tileCoord.x * _map.tileSize.width;
+                        int sRight = sLeft + _map.tileSize.width;
+                        
+                        if ( 
+                            (
+                              ccpDistance (player.midBottom, position) == 0       ||
+                              ccpDistance (player.cornerLowerLeft, position) == 0 ||
+                              ccpDistance (player.cornerLowerRight, position) == 0
+                              ) 
+                            && pBottom + yVelocity <= sTop && yVelocity < 0
+                            ) 
+                        {
+                            player.position = ccp(player.position.x, player.position.y - (pBottom - sTop) -1);
+                            player.velY = 0;
+                            player.isGrounded = YES;
+                            player.isJumping = NO; 
+                            return YES;
+                        }
+                        if (ccpDistance (player.midTop, position) == 0 && pTop + yVelocity >= sBottom && yVelocity > 0) {
+                            player.position = ccp(player.position.x, player.position.y - (pTop - sBottom) + 1);
+                            player.velY = 0;
+                            return YES;
+                        }
+                        if (ccpDistance (player.midLeft, position) == 0 && pLeft + xVelocity  <= sRight && sRight < pRight && xVelocity <= 0) {
+                            player.position = ccp(player.position.x + (sRight - pLeft) +1, player.position.y);
+                            player.velX = 0;
+                            return YES;
+                        }
+                        if (ccpDistance (player.midRight, position) == 0 && pRight + xVelocity >= sLeft && sLeft > pLeft && xVelocity >= 0) {
+                            player.position = ccp(player.position.x + (sLeft - pRight) -1, player.position.y);
+                            player.velX = 0;
+                            return YES;
+                        }
+                        
                     }
-                    if (pTop + yVelocity >= sBottom && yVelocity > 0) {
-                        player.position = ccp(player.position.x, player.position.y - (pTop - sBottom) + 1);
-                        player.velY = 0;
-                        return YES;
-                    }
-                    if (pLeft <= sRight && sRight < pRight && xVelocity <= 0) {
-                        player.position = ccp(player.position.x + (sRight - pLeft), player.position.y);
-                        player.velX = 0;
-                        return YES;
-                    }
-                    if (pRight >= sLeft && sLeft > pLeft && xVelocity >= 0) {
-                        player.position = ccp(player.position.x + (sLeft - pRight), player.position.y);
-                        player.velX = 0;
-                        return YES;
+                    NSString *collectable = [properties valueForKey:@"Collectable"];
+                    if(collectable && [collectable isEqualToString:@"True"])
+                    {
+                        
+                        [_metaLayer removeTileAt:tileCoord];
+                        [_foregroundLayer removeTileAt:tileCoord];
+                        [[SimpleAudioEngine sharedEngine] playEffect:@"coin.caf"];
+                        numCoins++;
+                        [_hud.coins setString:[NSString stringWithFormat:@"Coins :%d", numCoins]];
+                        
                     }
                     
                 }
-                NSString *collectable = [properties valueForKey:@"Collectable"];
-                if(collectable && [collectable isEqualToString:@"True"])
-                {
-                    
-                    [_metaLayer removeTileAt:tileCoord];
-                    [_foregroundLayer removeTileAt:tileCoord];
-                    [[SimpleAudioEngine sharedEngine] playEffect:@"coin.caf"];
-                    numCoins++;
-                    [_hud.coins setString:[NSString stringWithFormat:@"Coins :%d", numCoins]];
-                
-                }
-                
             }
         }
         
@@ -262,8 +299,44 @@
 
 - (BOOL) isOnGround:(Player *)player
 {
-    CGPoint belowPlayer = ccp(player.position.x, player.position.y - player.contentSize.height/2);
+    int numFatal = 0;    
     
+    for(NSValue *value in player.aabbBottomArray)
+    {
+        CGPoint point = [value CGPointValue];
+        CGPoint checkpoint = CGPointMake(point.x, point.y+1);
+        
+        CGPoint tileCoord = [self tileCoordForPosition:checkpoint];
+        int tileGid = [_metaLayer tileGIDAt:tileCoord];
+        if(tileGid)
+        {
+            NSDictionary *properties = [_map propertiesForGID:tileGid];
+            if (properties)
+            {
+                
+                NSString *fatality = [properties valueForKey:@"Fatal"];
+                if(fatality && [fatality isEqualToString:@"True"])
+                {
+                    numFatal++;
+                    if(numFatal >=2 )
+                    {
+                        numAttempts++;  
+                        [_hud.attempts setString:[NSString stringWithFormat:@"Attempts :%d", numAttempts]];
+                        [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+                        CutScene *gameOverScene = [CutScene nodeWithString:@"Awwwww, snap :[" sound:@"game_over.caf" andDuration:5.0];
+                        numCoins = 0;
+                        [_hud.coins setString:[NSString stringWithFormat:@"Coins :%d", numCoins]];
+                        [[CCDirector sharedDirector] replaceScene:gameOverScene];
+                        
+                        return YES;
+                    }
+                    
+                }
+            }
+        }
+    }
+    
+    CGPoint belowPlayer = ccp(player.position.x, player.position.y - player.contentSize.height/2);    
     CGPoint tileCoord = [self tileCoordForPosition:belowPlayer];
     int tileGid = [_metaLayer tileGIDAt:tileCoord];
     if(tileGid)
@@ -272,28 +345,11 @@
         if (properties)
         {
             
-            NSString *fatality = [properties valueForKey:@"Fatal"];
-            if(fatality && [fatality isEqualToString:@"True"])
-            {
-                numAttempts++;  
-                [_hud.attempts setString:[NSString stringWithFormat:@"Attempts :%d", numAttempts]];
-                [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
-                CCScene *gameOverScene = [GameOverScene node];
-                numCoins = 0;
-                [_hud.coins setString:[NSString stringWithFormat:@"Coins :%d", numCoins]];
-                [[CCDirector sharedDirector] replaceScene:gameOverScene];
-                
-                return YES;
-                
-            }
-            
             NSString *collision = [properties valueForKey:@"Collidable"];
             if([collision isEqualToString:@"True"])
             {
                 return YES;
             }
-
-
         }
     }
     
@@ -349,15 +405,22 @@
                     _player1.scaleX = 1;
                     break;
                 case kDirDiagRightUp:
-                    _player1.velX = kWalkVelocity-2;
+                    _player1.velX = kWalkVelocity;
                     _player1.scaleX = 1;
-
+                    break;
+                case kDirDiagRightDown:
+                    _player1.velX = kWalkVelocity;
+                    _player1.scaleX = 1;
                     break;
                 case kDirDiagLeftUp:
-                    _player1.velX = -1*(kWalkVelocity-2);
+                    _player1.velX = -1*(kWalkVelocity);
                     _player1.scaleX = -1;
                     break;
                 case kDirLeft:
+                    _player1.velX = -kWalkVelocity;
+                    _player1.scaleX = -1;
+                    break;
+                case kDirDiagLeftDown:
                     _player1.velX = -kWalkVelocity;
                     _player1.scaleX = -1;
                     break;
@@ -374,14 +437,22 @@
                     _player2.scaleX = 1;
                     break;
                 case kDirDiagRightUp:
-                    _player2.velX = kWalkVelocity-2;
+                    _player2.velX = kWalkVelocity;
+                    _player2.scaleX = 1;
+                    break;
+                case kDirDiagRightDown:
+                    _player2.velX = kWalkVelocity;
                     _player2.scaleX = 1;
                     break;
                 case kDirDiagLeftUp:
-                    _player2.velX = -1*(kWalkVelocity-2);
+                    _player2.velX = -1*(kWalkVelocity);
                     _player2.scaleX = -1;
                     break;
                 case kDirLeft:
+                    _player2.velX = -kWalkVelocity;
+                    _player2.scaleX = -1;
+                    break;
+                case kDirDiagLeftDown:
                     _player2.velX = -kWalkVelocity;
                     _player2.scaleX = -1;
                     break;

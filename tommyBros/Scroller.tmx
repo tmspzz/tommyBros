@@ -27,7 +27,7 @@
  </tileset>
  <layer name="Background" width="64" height="12">
   <data encoding="base64" compression="zlib">
-   eJzllFsPgyAMhWHu4q5u4P//resDJA0pWOhJtsSHL1GLh1NO1TvnDsREHInTzjgTF2Imrn/gZxQ/mOOdeBBP4mXQ+XU/qBxrOp+C8r01we8t/Us+QkKT4+i+KB3LTEo+okFLIjbOEkXOsJWbhuAw8+2T1gTwxL1tZajZK27UEXOZfcyg/hEaq0BZk9bX6jWfed5DOsOad/7NtvoLjMj0+bV1thCzyfsOwrPyvy6xMDTrezWR9Pp4K7gxNOt7NZGg/O2l/y+MNRou
+   eJzllNsOgzAIhtu5g3MHt9b3f9axhCYNgcpadCZefBcW8vNTqN45dwA64AicdsYZuAA9cN2An1p85RxvwB14AM8GnX/3YzVHSedN+J6FLD4h+XdL/5yPQGqW5lhb10qnZSc5H7FBiyMW7tKKNMPS3DQEZ7PfHrU6A0+5t7kZamrFmbjFXiYfvVH/FhoTA41x+VJc8pn2PeAdSt7zNyvl5FpUO7p13pZ2PtQrPaP/dY4R0eRqGRfiVx8vBQOiydUyLISlxz30/wFFQBpW
   </data>
  </layer>
  <objectgroup name="Objects" width="64" height="12">
@@ -41,6 +41,8 @@
     <property name="SpawnP2" value=""/>
    </properties>
   </object>
+  <object name="EndP1" x="3328" y="512" width="64" height="64"/>
+  <object name="EndP2" x="3392" y="512" width="64" height="64"/>
  </objectgroup>
  <layer name="Foreground" width="64" height="12">
   <data encoding="base64" compression="zlib">
@@ -49,7 +51,7 @@
  </layer>
  <layer name="Meta" width="64" height="12">
   <data encoding="base64" compression="zlib">
-   eJztlNEOgCAIRfkK5f+/tPXQdmOAmtf5kGdjo6QLiClyOLSpxqIYz2fl30kxFq3jM4un9yj3rO5qsjODMRlKrOWBuZcZs3Nj1VlBa7SmaIYF1sXxe3P1zje7e1pnCOtg/EtMDe9u8fS/9HDHaMe3dg8zfaxXQR/93di+S/IuM5V3XwzTRTZax+HfXG7rDVY=
+   eJztlNEOgCAIRfkK5f+/tPXQRneCqLf5kGdjWeIFhRQ5HPpUMM+nNWbF30kBE/MU+I5zqzx7xxgs3a+Jesb6RCgxlwfmWUas1o2VZ5V3747oejUsZl4a42ysbH2ju6fXQ/jvrp4rUwPvFk9/Zg+3jybW4hl6+lYLtdW87wZza+WbMZ1Yk9Vk22geh39zAX3aDYA=
   </data>
  </layer>
  <objectgroup name="Physics" width="64" height="12">

@@ -12,7 +12,6 @@
 #import "HUD.h"
 #import "HUDProtocolDelegate.h"
 #import "Player.h"
-#import "GameOverScene.h"
 
 static int numAttempts;
 
@@ -50,5 +49,6 @@ static int numAttempts;
 - (BOOL) resolvePlayerWorldCollision:(Player *) player;
 - (BOOL) isOnGround:(Player *) player;
 - (void) scrollMap;
+- (BOOL) isVictory;
 
 @end

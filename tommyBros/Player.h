@@ -22,11 +22,14 @@
     BOOL isJumping;
     BOOL isGrounded;
     
-    CGPoint cornerUpperRight;
+    CGPoint midTop;
+    CGPoint midBottom;
+    CGPoint midRight;
+    CGPoint midLeft;
     CGPoint cornerLowerRight;
-    CGPoint cornerUpperLeft;
     CGPoint cornerLowerLeft;
-    NSMutableArray *cornerArray;
+    NSMutableArray *aabbArray;
+    NSMutableArray *aabbBottomArray;
     
     
 }
@@ -36,8 +39,9 @@
 @property (assign) float maxVelY;
 @property (assign) BOOL isJumping;
 @property (assign) BOOL isGrounded;
-@property (nonatomic, retain) NSArray *cornerArray;
-@property (readonly) CGPoint cornerUpperRight, cornerUpperLeft, cornerLowerLeft, cornerLowerRight;
+@property (nonatomic, retain) NSArray *aabbArray;
+@property (nonatomic, retain) NSArray *aabbBottomArray;
+@property (readonly) CGPoint midTop, midBottom, midRight, midLeft, cornerLowerRight, cornerLowerLeft;
 
 + (Player *) playerWithFile: (NSString *) fileName tag:(const int)tag;
 - (id)initWithFile:(NSString *)fileName tag:(const int)tag;
