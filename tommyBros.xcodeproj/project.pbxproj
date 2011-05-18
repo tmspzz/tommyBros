@@ -16,6 +16,7 @@
 		8A3B2D58137BCCDD00E8CF22 /* jumpButtonN.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A3B2D56137BCCDD00E8CF22 /* jumpButtonN.png */; };
 		8A3B2D59137BCCDD00E8CF22 /* jumpButtonS.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A3B2D57137BCCDD00E8CF22 /* jumpButtonS.png */; };
 		8A3B2D5E137BE65300E8CF22 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A3B2D5D137BE65300E8CF22 /* Player.m */; };
+		8A5F031F1383C46B0075619D /* ServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A5F031E1383C46B0075619D /* ServerController.m */; };
 		8A839611137AE3B900853BE3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A839610137AE3B900853BE3 /* QuartzCore.framework */; };
 		8A839613137AE3B900853BE3 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A839612137AE3B900853BE3 /* OpenGLES.framework */; };
 		8A839615137AE3B900853BE3 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A839614137AE3B900853BE3 /* OpenAL.framework */; };
@@ -155,13 +156,15 @@
 		8A2210E6137AF4A10073191B /* Pad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pad.m; sourceTree = "<group>"; };
 		8A2210E8137B09550073191B /* PadProtocolDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PadProtocolDelegate.h; sourceTree = "<group>"; };
 		8A32ED70138171610085EB17 /* jump.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = jump.caf; sourceTree = "<group>"; };
-		8A32ED73138183DE0085EB17 /* CutScene.h */ = {isa = PBXFileReference; fileEncoding = 4; path = CutScene.h; sourceTree = "<group>"; };
+		8A32ED73138183DE0085EB17 /* CutScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CutScene.h; sourceTree = "<group>"; };
 		8A32ED74138183DE0085EB17 /* CutScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CutScene.m; sourceTree = "<group>"; };
 		8A3B2D56137BCCDD00E8CF22 /* jumpButtonN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jumpButtonN.png; sourceTree = "<group>"; };
 		8A3B2D57137BCCDD00E8CF22 /* jumpButtonS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jumpButtonS.png; sourceTree = "<group>"; };
 		8A3B2D5B137BE16C00E8CF22 /* HUDProtocolDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDProtocolDelegate.h; sourceTree = "<group>"; };
 		8A3B2D5C137BE65300E8CF22 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		8A3B2D5D137BE65300E8CF22 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		8A5F031D1383C46B0075619D /* ServerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerController.h; sourceTree = "<group>"; };
+		8A5F031E1383C46B0075619D /* ServerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerController.m; sourceTree = "<group>"; };
 		8A83960C137AE3B900853BE3 /* tommyBros.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tommyBros.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A839610137AE3B900853BE3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8A839612137AE3B900853BE3 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -480,6 +483,8 @@
 				8A2210E6137AF4A10073191B /* Pad.m */,
 				8A32ED73138183DE0085EB17 /* CutScene.h */,
 				8A32ED74138183DE0085EB17 /* CutScene.m */,
+				8A5F031D1383C46B0075619D /* ServerController.h */,
+				8A5F031E1383C46B0075619D /* ServerController.m */,
 				8A839621137AE3B900853BE3 /* Resources */,
 				8A839635137AE3B900853BE3 /* cocos2d */,
 				8A839726137AE3BB00853BE3 /* CocosDenshion */,
@@ -963,6 +968,7 @@
 				8A2210E7137AF4A10073191B /* Pad.m in Sources */,
 				8A3B2D5E137BE65300E8CF22 /* Player.m in Sources */,
 				8A32ED75138183DE0085EB17 /* CutScene.m in Sources */,
+				8A5F031F1383C46B0075619D /* ServerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

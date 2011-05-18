@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ServerController.h"
 
 @class RootViewController;
 
 @interface AppDelegate : NSObject <UIApplicationDelegate> {
 	UIWindow			*window;
 	RootViewController	*viewController;
+    ServerController    *sharedServerController;
 }
 
 @property (nonatomic, retain) UIWindow *window;

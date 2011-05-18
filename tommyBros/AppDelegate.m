@@ -110,6 +110,10 @@
 	// Removes the startup flicker
 	[self removeStartupFlicker];
 	
+    // Start the Server
+    
+    sharedServerController = [ServerController sharedServerController];
+    
 	// Run the intro Scene
 	[[CCDirector sharedDirector] runWithScene: [HelloWorldLayer scene]];
 }
@@ -153,6 +157,7 @@
 
 - (void)dealloc {
 	[[CCDirector sharedDirector] release];
+    [[ServerController sharedServerController] release];
 	[window release];
 	[super dealloc];
 }
