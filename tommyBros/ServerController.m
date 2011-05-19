@@ -9,9 +9,12 @@
 #import "ServerController.h"
 
 
+
 @implementation ServerController
 
 @synthesize netService = _netService;
+@synthesize listeningSocket = _listeningSocket;
+@synthesize messageBroker = _messageBroker;
 
 static ServerController *_sharedServerController = nil;
 
@@ -43,7 +46,16 @@ static ServerController *_sharedServerController = nil;
 
 -(void) startService
 {
-    _netService = [[NSNetService alloc] initWithDomain:@"" type:@"_tommyBros._tcp." name:@"" port:7865];
+    NSError *error;
+    self.listeningSocket = [[[AsyncSocket alloc] initWithDelegate:self] autorelease];
+    if ( ![self.listeningSocket acceptOnPort:0 error:&error] ) {
+        NSLog(@"Failed to create listening socket");
+        return;
+    }
+    
+    // Advertise service with bonjour
+    NSString *serviceName = [NSString stringWithFormat:@"TommyBros on %@", [[NSProcessInfo processInfo] hostName]];
+    _netService = [[NSNetService alloc] initWithDomain:@"" type:@"_tommyBros._tcp." name:serviceName port:self.listeningSocket.localPort];
     _netService.delegate = self;
     [_netService publish];
 
@@ -55,7 +67,24 @@ static ServerController *_sharedServerController = nil;
     self.netService = nil;
 }
 
+#pragma mark TBMessageBroker Delegate Methods
+
+-(void)messageBroker:(TBMessageBroker *)server didReceiveMessage:(TBMessage *)message{
+
+
+//TODO
+
+}
+
+#pragma mark AsyncSocket Delegate Methods
+
+-(void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {
+    TBMessageBroker *newBroker = [[[TBMessageBroker alloc] initWithAsyncSocket:sock] autorelease];
+    newBroker.delegate = self;
+}
+
 #pragma mark Net Service Delegate Methods
+
 -(void)netService:(NSNetService *)aNetService didNotPublish:(NSDictionary *)dict {
     NSLog(@"Failed to publish: %@", dict);
 }
@@ -66,6 +95,9 @@ static ServerController *_sharedServerController = nil;
 -(void) dealloc
 {
     [self stopService];
+    self.listeningSocket = nil;
+
+    
     [super dealloc];
     
 }

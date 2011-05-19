@@ -7,15 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AsyncSocket.h"
+#import "TBMessageBroker.h"
 
 
-@interface ServerController : NSObject <NSNetServiceDelegate> {
+@interface ServerController : NSObject <NSNetServiceDelegate, AsyncSocketDelegate, TBMessageBrokerProtocolDelegate> {
     
     NSNetService *_netService;
-    
+    AsyncSocket *_listeningSocket;
 }
 
 @property (nonatomic, retain) NSNetService *netService;
+@property (nonatomic, retain) AsyncSocket *listeningSocket;
+@property (nonatomic, retain) TBMessageBroker *messageBroker;
+
 
 +(ServerController *) sharedServerController;
 +(id) alloc;

@@ -13,8 +13,6 @@
 #import "HUDProtocolDelegate.h"
 #import "Player.h"
 
-static int numAttempts;
-
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer <HUDProtocolDelegate>
 {

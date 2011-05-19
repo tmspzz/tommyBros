@@ -13,6 +13,8 @@
 #import "SimpleAudioEngine.h"
 #import "CutScene.h"
 
+static int numAttempts;
+
 // HelloWorldLayer implementation
 @implementation HelloWorldLayer
 
