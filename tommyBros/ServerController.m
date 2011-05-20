@@ -71,8 +71,7 @@ static ServerController *_sharedServerController = nil;
 
 -(void)messageBroker:(TBMessageBroker *)server didReceiveMessage:(TBMessage *)message{
 
-
-//TODO
+    NSLog(@"Message of actionType:%d, from Pad: %d, with action: %d", message.actionType, message.padNumber, message.action);
 
 }
 

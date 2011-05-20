@@ -113,6 +113,7 @@
     // Start the Server
     
     sharedServerController = [ServerController sharedServerController];
+    [sharedServerController startService];
     
 	// Run the intro Scene
 	[[CCDirector sharedDirector] runWithScene: [HelloWorldLayer scene]];
