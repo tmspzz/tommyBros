@@ -15,6 +15,8 @@
 @synthesize netService = _netService;
 @synthesize listeningSocket = _listeningSocket;
 @synthesize messageBroker = _messageBroker;
+@synthesize delegate = _delegate;
+@synthesize connectionSocket = _connectionSocket;
 
 static ServerController *_sharedServerController = nil;
 
@@ -48,6 +50,7 @@ static ServerController *_sharedServerController = nil;
 {
     NSError *error;
     self.listeningSocket = [[[AsyncSocket alloc] initWithDelegate:self] autorelease];
+    //[_listeningSocket setRunLoopModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
     if ( ![self.listeningSocket acceptOnPort:0 error:&error] ) {
         NSLog(@"Failed to create listening socket");
         return;
@@ -63,6 +66,8 @@ static ServerController *_sharedServerController = nil;
 
 -(void)stopService 
 {
+    self.messageBroker.delegate = nil;
+    self.messageBroker = nil;
     [_netService stop];
     self.netService = nil;
 }
@@ -72,14 +77,52 @@ static ServerController *_sharedServerController = nil;
 -(void)messageBroker:(TBMessageBroker *)server didReceiveMessage:(TBMessage *)message{
 
     NSLog(@"Message of actionType:%d, from Pad: %d, with action: %d", message.actionType, message.padNumber, message.action);
+    if ( (_delegate && [_delegate respondsToSelector:@selector(didReceiveMessageWithActionType: forPad: withAction:)])) {
+        
+        [_delegate didReceiveMessageWithActionType:message.actionType forPad:message.padNumber withAction:message.action];
+
+    }
 
 }
 
 #pragma mark AsyncSocket Delegate Methods
 
+-(BOOL)onSocketWillConnect:(AsyncSocket *)sock {
+
+    if ( self.connectionSocket == nil ) {
+        self.connectionSocket = sock;
+        return YES;
+    }
+    return NO;
+
+}
+
+- (void)onSocket:(AsyncSocket *)sock didAcceptNewSocket:(AsyncSocket *)newSocket{
+
+    int i = 0;
+}
+
 -(void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port {
+    
     TBMessageBroker *newBroker = [[[TBMessageBroker alloc] initWithAsyncSocket:sock] autorelease];
     newBroker.delegate = self;
+    self.messageBroker = newBroker;
+}
+
+- (void)onSocket:(AsyncSocket *)sender willDisconnectWithError:(NSError *)error{
+    
+    NSLog(@"AsyncScoket willDisconnectWithError:%@", error);
+
+}
+
+
+-(void) onSocketDidDisconnect:(AsyncSocket *)sock{
+
+    if ( sock == self.connectionSocket ) {
+        NSLog(@"Server Controller: SOCKET DISCONNECTED!!!");
+        self.connectionSocket = nil;
+        self.messageBroker = nil;
+    }
 }
 
 #pragma mark Net Service Delegate Methods
@@ -95,8 +138,8 @@ static ServerController *_sharedServerController = nil;
 {
     [self stopService];
     self.listeningSocket = nil;
+    self.connectionSocket = nil;
 
-    
     [super dealloc];
     
 }

@@ -29,11 +29,34 @@
     
         _actionType = actionType;
         _padNumber = padNumber;
-        _action = _action;
+        _action = action;
     
     }
     
     return self;
+}
+
+#pragma mark NSCoding Protocol
+
+- (id) initWithCoder:(NSCoder *)aDecoder {
+
+    if((self = [super init])){
+    
+        
+        _actionType = [aDecoder decodeInt32ForKey:@"_actionType"];
+        _padNumber = [aDecoder decodeInt32ForKey:@"_padNumber"];
+        _action = [aDecoder decodeInt32ForKey:@"_action"] ;
+    }
+
+    return self;
+}
+
+- (void) encodeWithCoder:(NSCoder*)encoder {
+    
+    [encoder encodeInt32:_actionType forKey:@"_actionType"];
+    [encoder encodeInt32:_padNumber forKey:@"_padNumber"];
+    [encoder encodeInt32:_action forKey:@"_action"];
+    
 }
 
 @end

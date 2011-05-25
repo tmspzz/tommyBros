@@ -114,9 +114,13 @@
     
     sharedServerController = [ServerController sharedServerController];
     [sharedServerController startService];
+    CCScene *theScene = [HelloWorldLayer scene];
+    HelloWorldLayer *theLayer = (HelloWorldLayer *)[theScene getChildByTag:1];
+    
+    sharedServerController.delegate = theLayer;
     
 	// Run the intro Scene
-	[[CCDirector sharedDirector] runWithScene: [HelloWorldLayer scene]];
+	[[CCDirector sharedDirector] runWithScene: theScene];
 }
 
 

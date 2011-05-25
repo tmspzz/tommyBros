@@ -16,9 +16,9 @@
 		8A3B2D58137BCCDD00E8CF22 /* jumpButtonN.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A3B2D56137BCCDD00E8CF22 /* jumpButtonN.png */; };
 		8A3B2D59137BCCDD00E8CF22 /* jumpButtonS.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A3B2D57137BCCDD00E8CF22 /* jumpButtonS.png */; };
 		8A3B2D5E137BE65300E8CF22 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A3B2D5D137BE65300E8CF22 /* Player.m */; };
+		8A45241C138BF6BA00B1E2A8 /* TBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A45241B138BF6BA00B1E2A8 /* TBMessage.m */; };
 		8A5F031F1383C46B0075619D /* ServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A5F031E1383C46B0075619D /* ServerController.m */; };
 		8A6B5D6913850D0F0033D6F1 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B5D6813850D0F0033D6F1 /* AsyncSocket.m */; };
-		8A6B5D6D13850D970033D6F1 /* TBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B5D6C13850D970033D6F1 /* TBMessage.m */; };
 		8A6B5D70138511B30033D6F1 /* TBMessageBroker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B5D6F138511B30033D6F1 /* TBMessageBroker.m */; };
 		8A6B5D90138533B70033D6F1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6B5D8F138533B70033D6F1 /* CFNetwork.framework */; };
 		8A839611137AE3B900853BE3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A839610137AE3B900853BE3 /* QuartzCore.framework */; };
@@ -167,12 +167,13 @@
 		8A3B2D5B137BE16C00E8CF22 /* HUDProtocolDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDProtocolDelegate.h; sourceTree = "<group>"; };
 		8A3B2D5C137BE65300E8CF22 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		8A3B2D5D137BE65300E8CF22 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		8A452410138BEA0B00B1E2A8 /* TBActionPassingProtocolDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBActionPassingProtocolDelegate.h; sourceTree = "<group>"; };
+		8A45241A138BF6B900B1E2A8 /* TBMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBMessage.h; sourceTree = "<group>"; };
+		8A45241B138BF6BA00B1E2A8 /* TBMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBMessage.m; sourceTree = "<group>"; };
 		8A5F031D1383C46B0075619D /* ServerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerController.h; sourceTree = "<group>"; };
 		8A5F031E1383C46B0075619D /* ServerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerController.m; sourceTree = "<group>"; };
 		8A6B5D6713850D0F0033D6F1 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
 		8A6B5D6813850D0F0033D6F1 /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
-		8A6B5D6B13850D970033D6F1 /* TBMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBMessage.h; sourceTree = "<group>"; };
-		8A6B5D6C13850D970033D6F1 /* TBMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBMessage.m; sourceTree = "<group>"; };
 		8A6B5D6E138511B20033D6F1 /* TBMessageBroker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBMessageBroker.h; sourceTree = "<group>"; };
 		8A6B5D6F138511B30033D6F1 /* TBMessageBroker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBMessageBroker.m; sourceTree = "<group>"; };
 		8A6B5D71138513AF0033D6F1 /* TBMessageBrokerProtocolDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBMessageBrokerProtocolDelegate.h; sourceTree = "<group>"; };
@@ -480,10 +481,11 @@
 		8A839620137AE3B900853BE3 /* tommyBros */ = {
 			isa = PBXGroup;
 			children = (
+				8A45241A138BF6B900B1E2A8 /* TBMessage.h */,
+				8A45241B138BF6BA00B1E2A8 /* TBMessage.m */,
 				8A6B5D6713850D0F0033D6F1 /* AsyncSocket.h */,
 				8A6B5D6813850D0F0033D6F1 /* AsyncSocket.m */,
-				8A6B5D6B13850D970033D6F1 /* TBMessage.h */,
-				8A6B5D6C13850D970033D6F1 /* TBMessage.m */,
+				8A452410138BEA0B00B1E2A8 /* TBActionPassingProtocolDelegate.h */,
 				8A6B5D71138513AF0033D6F1 /* TBMessageBrokerProtocolDelegate.h */,
 				8A6B5D6E138511B20033D6F1 /* TBMessageBroker.h */,
 				8A6B5D6F138511B30033D6F1 /* TBMessageBroker.m */,
@@ -991,8 +993,8 @@
 				8A32ED75138183DE0085EB17 /* CutScene.m in Sources */,
 				8A5F031F1383C46B0075619D /* ServerController.m in Sources */,
 				8A6B5D6913850D0F0033D6F1 /* AsyncSocket.m in Sources */,
-				8A6B5D6D13850D970033D6F1 /* TBMessage.m in Sources */,
 				8A6B5D70138511B30033D6F1 /* TBMessageBroker.m in Sources */,
+				8A45241C138BF6BA00B1E2A8 /* TBMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

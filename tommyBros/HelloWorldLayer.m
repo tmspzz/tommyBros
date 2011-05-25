@@ -12,6 +12,7 @@
 #import "GameConfig.h"
 #import "SimpleAudioEngine.h"
 #import "CutScene.h"
+#import "ServerController.h"
 
 static int numAttempts;
 
@@ -40,9 +41,10 @@ static int numAttempts;
 	
 	// 'layer' is an autorelease object.
 	HelloWorldLayer *layer = [HelloWorldLayer node];
+    [[ServerController sharedServerController] setDelegate:layer];
 	
 	// add layer as a child to scene
-	[scene addChild: layer];
+	[scene addChild: layer z:0 tag:1];
     
 	// return the scene
 	return scene;
@@ -114,7 +116,7 @@ static int numAttempts;
 
 -(void) update: (ccTime) delta
 {
-	int steps = 1;
+    int steps = 1;
 	CGFloat dt = delta/(CGFloat)steps;
     
     [_player1 updateVelY];
@@ -328,6 +330,7 @@ static int numAttempts;
                         CutScene *gameOverScene = [CutScene nodeWithString:@"Awwwww, snap :[" sound:@"game_over.caf" andDuration:5.0];
                         numCoins = 0;
                         [_hud.coins setString:[NSString stringWithFormat:@"Coins :%d", numCoins]];
+                        [[ServerController sharedServerController] setDelegate:nil];
                         [[CCDirector sharedDirector] replaceScene:gameOverScene];
                         
                         return YES;
@@ -364,6 +367,25 @@ static int numAttempts;
     int x = position.x / _map.tileSize.width;
     int y = ((_map.mapSize.height * _map.tileSize.height) - position.y) / _map.tileSize.height;
     return ccp(x, y);
+}
+
+#pragma mark TBActionPassing Protocol
+
+-(void) didReceiveMessageWithActionType:(int) msgActionType forPad:(int) padNumber withAction:(int) action{
+
+    NSAssert(msgActionType == kActionTypeMove || msgActionType == kActionTypeButton, @"Pad Action unknown");
+    
+    
+    if (msgActionType == kActionTypeButton){
+    
+        if(action == kActionJump)
+            [self jumpActionForPad:padNumber];    
+    }else if(msgActionType == kActionTypeMove){
+    
+        [self direction:action forPad:padNumber];
+    
+    }
+    
 }
 
 

@@ -22,6 +22,8 @@ static const float SocketTimeout = -1.0;
 - (id) initWithAsyncSocket:(AsyncSocket *) newSocket{
     
     NSAssert( newSocket != nil, @"Argument must be non-nil");
+    
+    _isPaused = NO;
 
     if ( (self = [super init]) ) {
         if ( [newSocket canSafelySetDelegate] ) {

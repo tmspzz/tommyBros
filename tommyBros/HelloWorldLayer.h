@@ -12,9 +12,10 @@
 #import "HUD.h"
 #import "HUDProtocolDelegate.h"
 #import "Player.h"
+#import "TBActionPassingProtocolDelegate.h"
 
 // HelloWorldLayer
-@interface HelloWorldLayer : CCLayer <HUDProtocolDelegate>
+@interface HelloWorldLayer : CCLayer <HUDProtocolDelegate, TBActionPassingProtocolDelegate>
 {
     
     CCTMXTiledMap *_map;
