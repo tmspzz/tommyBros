@@ -14,9 +14,9 @@
 
 @synthesize netService = _netService;
 @synthesize listeningSocket = _listeningSocket;
-@synthesize messageBroker = _messageBroker;
+@synthesize messageBrokerArray = _messageBrokerArray;
 @synthesize delegate = _delegate;
-@synthesize connectionSocket = _connectionSocket;
+@synthesize connectionSocketArray = _connectionSocketArray;
 
 static ServerController *_sharedServerController = nil;
 
@@ -44,6 +44,14 @@ static ServerController *_sharedServerController = nil;
     return nil;
 }
 
+- (id) init {
+
+    _connectionSocketArray = [[NSMutableArray alloc] init];
+    _messageBrokerArray = [[NSMutableArray alloc] init];
+
+    return self;
+}
+
 #pragma mark Instance Methods
 
 -(void) startService
@@ -66,8 +74,12 @@ static ServerController *_sharedServerController = nil;
 
 -(void)stopService 
 {
-    self.messageBroker.delegate = nil;
-    self.messageBroker = nil;
+    for(TBMessageBroker *msgBrk in _messageBrokerArray ) {
+    
+        msgBrk.delegate = nil;
+        [_messageBrokerArray removeObject:msgBrk];
+    
+    }
     [_netService stop];
     self.netService = nil;
 }
@@ -89,8 +101,9 @@ static ServerController *_sharedServerController = nil;
 
 -(BOOL)onSocketWillConnect:(AsyncSocket *)sock {
 
-    if ( self.connectionSocket == nil ) {
-        self.connectionSocket = sock;
+    if ( self.connectionSocketArray != nil ) {
+        
+        [_connectionSocketArray addObject:sock];
         return YES;
     }
     return NO;
@@ -106,7 +119,7 @@ static ServerController *_sharedServerController = nil;
     
     TBMessageBroker *newBroker = [[[TBMessageBroker alloc] initWithAsyncSocket:sock] autorelease];
     newBroker.delegate = self;
-    self.messageBroker = newBroker;
+    [_messageBrokerArray addObject:newBroker];
 }
 
 - (void)onSocket:(AsyncSocket *)sender willDisconnectWithError:(NSError *)error{
@@ -117,11 +130,17 @@ static ServerController *_sharedServerController = nil;
 
 
 -(void) onSocketDidDisconnect:(AsyncSocket *)sock{
-
-    if ( sock == self.connectionSocket ) {
-        NSLog(@"Server Controller: SOCKET DISCONNECTED!!!");
-        self.connectionSocket = nil;
-        self.messageBroker = nil;
+    
+    for(int i  = 0; i < [_connectionSocketArray count]; i++){
+    
+        if([_connectionSocketArray objectAtIndex:i] == sock){
+        
+            [_connectionSocketArray removeObjectAtIndex:i];
+            [_messageBrokerArray removeObjectAtIndex:i];
+            NSLog(@"Server Controller: SOCKET DISCONNECTED!!!");
+        
+        }
+    
     }
 }
 
@@ -138,7 +157,8 @@ static ServerController *_sharedServerController = nil;
 {
     [self stopService];
     self.listeningSocket = nil;
-    self.connectionSocket = nil;
+    self.connectionSocketArray = nil;
+    self.messageBrokerArray = nil;
 
     [super dealloc];
     

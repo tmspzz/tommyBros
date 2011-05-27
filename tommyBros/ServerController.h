@@ -18,15 +18,15 @@
     
     NSNetService *_netService;
     AsyncSocket *_listeningSocket;
-    AsyncSocket *_connectionSocket;
+    NSMutableArray *_connectionSocketArray;
     id<TBActionPassingProtocolDelegate> _delegate;
-    TBMessageBroker *_messageBroker;
+    NSMutableArray *_messageBrokerArray;
 }
 
 @property (nonatomic, retain) NSNetService *netService;
 @property (nonatomic, retain) AsyncSocket *listeningSocket;
-@property (nonatomic, retain) AsyncSocket *connectionSocket;
-@property (nonatomic, retain) TBMessageBroker *messageBroker;
+@property (nonatomic, retain) NSMutableArray *connectionSocketArray;
+@property (nonatomic, retain) NSMutableArray *messageBrokerArray;
 @property (nonatomic, assign) id<TBActionPassingProtocolDelegate> delegate;
 //@property (readwrite, retain) MTMessageBroker *messageBroker;
 

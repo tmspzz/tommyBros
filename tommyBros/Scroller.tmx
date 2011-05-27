@@ -51,14 +51,14 @@
  </layer>
  <layer name="Meta" width="64" height="12">
   <data encoding="base64" compression="zlib">
-   eJztlNEOgCAIRfkK5f+/tPXQRneCqLf5kGdjWeIFhRQ5HPpUMM+nNWbF30kBE/MU+I5zqzx7xxgs3a+Jesb6RCgxlwfmWUas1o2VZ5V3747oejUsZl4a42ysbH2ju6fXQ/jvrp4rUwPvFk9/Zg+3jybW4hl6+lYLtdW87wZza+WbMZ1Yk9Vk22geh39zAX3aDYA=
+   eJztlEEOwCAIBHmF8v+XNj2Y0I2g1iVenITUVrogqCKXy5gK5vn0xqz4JylgYp4C33Ful7Z2jMHSzSbaM9YnQom5NJi1jNjtGyvPKt+9u6Lr9bCYeemMZ2PN9je6e0Z7CM/ubl2ZGni3ePp/1vD66MS/WENP32qhtpr302BuvXxnzOqxLIuMPFpPmWiSXdZ4AD28DYA=
   </data>
  </layer>
  <objectgroup name="Physics" width="64" height="12">
   <object name="GND1" x="0" y="576" width="576" height="192"/>
   <object name="BLK1" x="448" y="512" width="128" height="64"/>
   <object name="FLT1" x="640" y="192" width="256" height="64"/>
-  <object name="GND2" x="768" y="576" width="1152" height="192"/>
+  <object name="GND2" x="704" y="576" width="1216" height="192"/>
   <object name="FLT2" x="1152" y="192" width="128" height="64"/>
   <object name="FLT3" x="1408" y="192" width="64" height="64"/>
   <object name="BLK7" x="1600" y="320" width="128" height="128"/>
